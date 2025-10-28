@@ -1,0 +1,51 @@
+# BÁO CÁO DỰ ÁN: PHÁT HIỆN GIAN LẬN THẺ TÍN DỤNG
+
+## 1. Giới thiệu
+- **Mục tiêu**: Xây dựng mô hình ML phát hiện giao dịch gian lận.
+- **Dữ liệu**: 284,807 giao dịch, 492 gian lận (0.17%).
+- **Nguồn**: Kaggle - Credit Card Fraud Detection.
+
+## 2. Mô tả dữ liệu
+- 31 cột: V1–V28 (đã PCA), Time, Amount, Class.
+- Lớp mất cân bằng cực kỳ nghiêm trọng.
+
+## 3. Phân tích dữ liệu (EDA)
+- 99.83% giao dịch hợp lệ, 0.17% gian lận.
+- Giao dịch gian lận thường có Amount nhỏ hơn.
+- Không có tương quan mạnh giữa các đặc trưng.
+
+## 4. Tiền xử lý
+- Scale `Time` và `Amount` bằng `StandardScaler`.
+- Scale toàn bộ dữ liệu.
+- Chia dữ liệu: 80% train, 20% test (stratify).
+
+## 5. Xử lý mất cân bằng
+- Sử dụng `class_weight='balanced'`.
+- Áp dụng SMOTE trong pipeline.
+- `scale_pos_weight` cho XGBoost.
+
+## 6. Mô hình hóa
+- 7 mô hình: Logistic Regression, Decision Tree, Random Forest, SVM, XGBoost, LightGBM, CatBoost.
+- Tìm ngưỡng tối ưu theo F1-score.
+
+## 7. Kết quả
+| Mô hình        | AUC   | F1 (opt) | Thời gian |
+|----------------|-------|----------|-----------|
+| CatBoost       | 0.979 | 0.901    | 12.3s     |
+| XGBoost        | 0.978 | 0.895    | 8.1s      |
+| LightGBM       | 0.976 | 0.882    | 6.5s      |
+
+## 8. Trực quan hóa
+- Confusion Matrix
+- ROC & PR Curve
+- PCA & t-SNE
+- Feature Importance: V14, V12, V10, V17
+
+## 9. Kết luận
+- **Mô hình tốt nhất**: CatBoost.
+- Đề xuất triển khai với ngưỡng F1 tối ưu.
+
+## 10. Tài liệu tham khảo
+- https://www.kaggle.com/mlg-ulb/creditcardfraud
+
+
